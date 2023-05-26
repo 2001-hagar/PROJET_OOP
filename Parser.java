@@ -3,12 +3,14 @@ package com.example.demo4;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 
@@ -41,15 +43,17 @@ public class Parser extends Application {
             scrollPane.setFitToWidth(true);
             scrollPane.setFitToHeight(true);
 
-            Label headerLabel = new Label("HH");
+            Label headerLabel = new Label("Parser");
             headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18));
             headerLabel.setTextFill(Color.DARKBLUE);
+            Pane root= new Pane();
 
             BorderPane borderPane = new BorderPane();
             borderPane.setTop(headerLabel);
             borderPane.setCenter(scrollPane);
 
             Scene scene = new Scene(borderPane, 800, 600);
+            Scene scene1 = new Scene( root, 2000, 2000);
 
             primaryStage.setScene(scene);
             primaryStage.setTitle("XML Parser Example");
@@ -82,12 +86,28 @@ public class Parser extends Application {
                         textArea.appendText("Element: " + element.getNodeName() + "\n");
                         String name = element.getAttribute("Name");
                         textArea.appendText("Name: " + name + "\n");
-                        String value = element.getTextContent();
-                        textArea.appendText("Value: " + value + "\n\n");
+                         String value = element.getTextContent();
+                        textArea.appendText("Value: " + value+ "\n\n");
 
 
-                        if (element.getNodeName() == "Block") {
-                           new DRAW_BLOCK();
+                        if (element.getNodeName() == "Block"&& name=="Add") {
+                             root = new SumBlock().sumBlock(name,value);
+
+                        }
+                        if (element.getNodeName() == "Block"&& name=="Constant") {
+                            root =new ConstantBlock().ConstantBlock(name,value);
+
+                        }
+                        if (element.getNodeName() == "Block"&& name=="Saturation") {
+                            root =new SaturationBlock().SaturationBlock(name,value);
+
+                        }
+                        if (element.getNodeName() == "Block"&& name=="Scope") {
+                            root =new ScopeBlock().ScopeBlock(name,value);
+
+                        }
+                        if (element.getNodeName() == "Block"&& name=="Unit Delay") {
+                            root =new Unit DelayBlock().Unit DelayBlock(name,value);
 
                         }
                         if (element.getNodeName() == "line") {
